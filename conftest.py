@@ -1,21 +1,20 @@
 import pytest
 
-from endpoints.create_post import CreatePost
-from endpoints.update_post import UpdatePost
+from endpoints.authorize import Authorize
 
 
-@pytest.fixture()
-def create_post_endpoint():
-    return CreatePost()
+@pytest.fixture(scope="session")
+def token():
+    auth = Authorize()
+    name = "Sergo"
 
+    response = auth.get_token(name)
+    assert response.status_code == 200, "Authorization failed"
+    token = response.json().get("token")
+    assert token, "No token in response"
 
-@pytest.fixture()
-def update_post_endpoint():
-    return UpdatePost()
+    auth.set_token(token)
+    check_response = auth.is_token_valid()
+    assert check_response.status_code == 200, "Token is invalid right after creation"
 
-
-@pytest.fixture()
-def post_id(create_post_endpoint):
-    payload = {"title": "My generic tile", "body": "my body", "userId": 1}
-    create_post_endpoint.create_new_post(payload)
-    yield create_post_endpoint.post_id
+    return token
