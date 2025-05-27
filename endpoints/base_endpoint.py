@@ -10,18 +10,22 @@ class BaseEndpoint:
         self.token = token
         self.headers = {"Authorization": token}
 
-    def _get(self, path, **kwargs):
+    def _get(self, path, headers=None, **kwargs):
+        headers = headers or self.headers
         url = f"{self.base_url}{path}"
-        return requests.get(url, headers=self.headers, **kwargs)
+        return requests.get(url, headers=headers, **kwargs)
 
-    def _post(self, path, json=None, **kwargs):
+    def _post(self, path, json=None, headers=None, **kwargs):
+        headers = headers or self.headers
         url = f"{self.base_url}{path}"
-        return requests.post(url, json=json, headers=self.headers, **kwargs)
+        return requests.post(url, json=json, headers=headers, **kwargs)
 
-    def _put(self, path, json=None, **kwargs):
+    def _put(self, path, json=None, headers=None, **kwargs):
+        headers = headers or self.headers
         url = f"{self.base_url}{path}"
-        return requests.put(url, json=json, headers=self.headers, **kwargs)
+        return requests.put(url, json=json, headers=headers, **kwargs)
 
-    def _delete(self, path, **kwargs):
+    def _delete(self, path, headers=None, **kwargs):
+        headers = headers or self.headers
         url = f"{self.base_url}{path}"
-        return requests.delete(url, headers=self.headers, **kwargs)
+        return requests.delete(url, headers=headers, **kwargs)
