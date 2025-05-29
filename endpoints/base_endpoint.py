@@ -20,6 +20,11 @@ class BaseEndpoint:
         url = f"{self.base_url}{path}"
         return requests.post(url, json=json, headers=headers, **kwargs)
 
+    def _patch(self, path, json=None, headers=None, **kwargs):
+        headers = headers or self.headers
+        url = f"{self.base_url}{path}"
+        return requests.patch(url, json=json, headers=headers, **kwargs)
+
     def _put(self, path, json=None, headers=None, **kwargs):
         headers = headers or self.headers
         url = f"{self.base_url}{path}"

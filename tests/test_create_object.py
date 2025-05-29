@@ -1,21 +1,16 @@
 import allure
 import pytest
 
+from data.create_object_data import valid_payloads
 from endpoints.object_create import ObjectCreate
 
 
-@allure.title("Create object and verify response fields")
+@allure.title("Positive test: Create object with valid payloads")
+@pytest.mark.parametrize("payload", valid_payloads)
 @pytest.mark.smoke
-def test_create_object_success(token):
+def test_create_object_success(token, payload):
     obj_new = ObjectCreate()
     obj_new.set_token(token)
-
-    payload = {
-        "text": "My first meme",
-        "url": "https://example.com/meme.jpg",
-        "tags": ["funny", "test"],
-        "info": {"author": "Sergey", "type": "image"}
-    }
 
     with allure.step("Send POST request to create object"):
         response = obj_new.create_object(payload)
