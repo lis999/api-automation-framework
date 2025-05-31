@@ -10,8 +10,6 @@ from endpoints.object_create import ObjectCreate
 def test_create_object_negative(token, payload):
     obj = ObjectCreate()
     obj.set_token(token)
-    if payload == {"text": "", "url": "", "tags": [], "info": {}}:
-        pytest.skip("API accepts empty values - not considered invalid")
 
     with allure.step("Try to create object with invalid payload"):
         response = obj.create_object(payload)

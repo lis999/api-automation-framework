@@ -20,8 +20,7 @@ invalid_payloads = [
     {"url": "https://example.com/only-url.jpg"},  # missing text, tags, info
     {"text": "Missing info", "url": "https://example.com", "tags": ["tag"]},  # no info
     {"text": "Tags not list", "url": "https://example.com", "tags": "notalist", "info": {"author": "S", "type": "i"}},
-    {"text": "Info is string", "url": "https://example.com", "tags": ["t"], "info": "notadict"},
-    {"text": "", "url": "", "tags": [], "info": {}},  # empty fields
+    {"text": "Info is string", "url": "https://example.com", "tags": ["t"], "info": "notadict"}
 ]
 
 # Invalid payloads for PATCH
