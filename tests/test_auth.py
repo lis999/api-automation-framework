@@ -14,11 +14,12 @@ def test_authorize_success():
     assert len(data["token"]) > 0
 
 
-@allure.title("Test authorization with empty name returns 400 or 422")
+@allure.title("Test authorization with empty name should fail (currently returns 200)")
 def test_authorize_empty_name():
     auth = Authorize()
     response = auth.get_token("")
-    assert response.status_code in [400, 422]
+    # Expected: 400 or 422
+    assert response.status_code in [400, 422], f"Expected failure, got {response.status_code}"
 
 
 @allure.title("Test valid token is accepted by /authorize/<token>")
