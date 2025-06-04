@@ -18,8 +18,8 @@ def test_authorize_success():
 def test_authorize_empty_name():
     auth = Authorize()
     response = auth.get_token("")
-    # Expected: 400 or 422
-    assert response.status_code in [400, 422], f"Expected failure, got {response.status_code}"
+    # Expected: 422
+    assert response.status_code == 422, f"Expected failure, got {response.status_code}"
 
 
 @allure.title("Test valid token is accepted by /authorize/<token>")

@@ -1,44 +1,25 @@
 import allure
+import pytest
 
 from endpoints.object_create import ObjectCreate
 
+invalid_payloads = [
+    {},  # completely empty payload
+    {"text": "Missing URL"},  # missing required fields
+    {
+        "text": 123,
+        "url": 456,
+        "tags": "not a list",
+        "info": "not an object"
+    },  # invalid field types
+]
 
-@allure.title("Test creating object with completely empty payload returns 400")
-def test_create_object_empty_payload(token):
+
+@pytest.mark.parametrize("payload", invalid_payloads)
+@allure.title("Test creating object with invalid payload returns 400 or 422")
+def test_create_object_invalid_payload(token, payload):
     obj = ObjectCreate()
     obj.set_token(token)
 
-    payload = {}  # no fields
-
     response = obj.create_object(payload)
-    assert response.status_code == 400
-
-
-@allure.title("Test creating object with invalid field types returns 422")
-def test_create_object_invalid_field_types(token):
-    obj = ObjectCreate()
-    obj.set_token(token)
-
-    payload = {
-        "text": 123,  # should be string
-        "url": 456,  # should be string
-        "tags": "notalist",  # should be list
-        "info": "notanobject"  # should be dict
-    }
-
-    response = obj.create_object(payload)
-    assert response.status_code == 400
-
-
-@allure.title("Test creating object with missing some required fields returns 400")
-def test_create_object_missing_some_fields(token):
-    obj = ObjectCreate()
-    obj.set_token(token)
-
-    payload = {
-        "text": "Missing fields"
-        # no url, tags, info
-    }
-
-    response = obj.create_object(payload)
-    assert response.status_code == 400
+    assert response.status_code == 400, f"Unexpected status: {response.status_code}"
