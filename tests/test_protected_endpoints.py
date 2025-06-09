@@ -1,20 +1,21 @@
 import allure
 
 from endpoints.base_endpoint import BaseEndpoint
+from utils.assert_helpers import assert_status_code
 
 
 @allure.title("GET /meme without token should return 401")
 def test_get_all_without_token():
     base = BaseEndpoint()
     response = base._get("/meme")
-    assert response.status_code == 401
+    assert_status_code(response, 401)
 
 
 @allure.title("GET /meme/<id> without token should return 401")
 def test_get_by_id_without_token():
     base = BaseEndpoint()
     response = base._get("/meme/1")
-    assert response.status_code == 401
+    assert_status_code(response, 401)
 
 
 @allure.title("POST /meme without token should return 401")
@@ -27,7 +28,7 @@ def test_post_without_token():
         "info": {"author": "none", "type": "image"}
     }
     response = base._post("/meme", json=payload)
-    assert response.status_code == 401
+    assert_status_code(response, 401)
 
 
 @allure.title("PUT /meme/<id> without token should return 401")
@@ -41,11 +42,11 @@ def test_put_without_token():
         "info": {"author": "none", "type": "image"}
     }
     response = base._put("/meme/1", json=payload)
-    assert response.status_code == 401
+    assert_status_code(response, 401)
 
 
 @allure.title("DELETE /meme/<id> without token should return 401")
 def test_delete_without_token():
     base = BaseEndpoint()
     response = base._delete("/meme/1")
-    assert response.status_code == 401
+    assert_status_code(response, 401)

@@ -2,6 +2,7 @@ import allure
 import pytest
 
 from endpoints.object_create import ObjectCreate
+from utils.assert_helpers import assert_status_code
 
 invalid_payloads = [
     {},  # completely empty payload
@@ -16,10 +17,10 @@ invalid_payloads = [
 
 
 @pytest.mark.parametrize("payload", invalid_payloads)
-@allure.title("Test creating object with invalid payload returns 400 or 422")
+@allure.title("Test creating object with invalid payload returns 400")
 def test_create_object_invalid_payload(token, payload):
     obj = ObjectCreate()
     obj.set_token(token)
 
     response = obj.create_object(payload)
-    assert response.status_code == 400, f"Unexpected status: {response.status_code}"
+    assert_status_code(response, 400)

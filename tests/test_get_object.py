@@ -1,6 +1,7 @@
 import allure
 
 from endpoints.object_get import ObjectGet
+from utils.assert_helpers import assert_status_code
 
 
 @allure.title("Test getting an object by ID returns correct data")
@@ -11,7 +12,7 @@ def test_get_object_by_id(token, created_object_with_cleanup):
 
     with allure.step("Get object by ID"):
         response = obj_get.get_object_by_id(object_id)
-        assert response.status_code == 200
+        assert_status_code(response, 200)
         data = response.json()
 
     with allure.step("Verify retrieved object fields"):

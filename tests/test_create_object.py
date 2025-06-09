@@ -3,6 +3,7 @@ import pytest
 
 from data.create_object_data import valid_payloads
 from endpoints.object_create import ObjectCreate
+from utils.assert_helpers import assert_object_matches_payload
 
 
 @allure.title("Positive test: Create object with valid payloads")
@@ -19,7 +20,4 @@ def test_create_object_success(token, payload):
     with allure.step("Verify response fields match payload"):
         data = response.json()
         assert "id" in data, "Response JSON has no 'id'"
-        assert data["text"] == payload["text"], "Text mismatch"
-        assert data["url"] == payload["url"], "URL mismatch"
-        assert data["tags"] == payload["tags"], "Tags mismatch"
-        assert data["info"] == payload["info"], "Info mismatch"
+        assert_object_matches_payload(data, payload)

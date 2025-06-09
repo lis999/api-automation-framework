@@ -2,26 +2,34 @@ import allure
 import pytest
 
 from endpoints.object_update import ObjectUpdate
+from utils.assert_helpers import assert_status_code
 
 
 @allure.title("Test updating object with bad request payload returns 400")
 @pytest.mark.parametrize("payload", [
-    {"id": 123, "tags": "not a list"},
-    {"id": 123, "info": "not an object"},
+    {"tags": "not a list"},
+    {"info": "not an object"},
 ])
-def test_update_object_bad_request(token, payload):
+def test_update_object_bad_request(token, created_object_with_cleanup, payload):
+    object_id = created_object_with_cleanup
     obj = ObjectUpdate()
     obj.set_token(token)
-    response = obj.update_object(payload["id"], payload)
-    assert response.status_code == 403
+    response = obj.update_object(object_id, {"id": object_id, **payload})
+    assert_status_code(response, 400)
 
 
 @allure.title("Test updating non-existent object returns 404")
-@pytest.mark.parametrize("payload", [
-    {"id": 999999, "text": "Trying to update non-existent object"},
-])
-def test_update_object_not_found(token, payload):
+def test_update_object_not_found(token):
     obj = ObjectUpdate()
     obj.set_token(token)
+
+    payload = {
+        "id": 999999,
+        "text": "Trying to update non-existent object",
+        "url": "https://example.com/non-existent.jpg",
+        "tags": ["fake"],
+        "info": {"author": "ghost", "type": "image"}
+    }
+
     response = obj.update_object(payload["id"], payload)
-    assert response.status_code == 404
+    assert_status_code(response, 404)
