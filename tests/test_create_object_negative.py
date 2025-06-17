@@ -1,23 +1,13 @@
 import allure
 import pytest
 
+from data.create_object_negative_data import invalid_payloads
 from endpoints.object_create import ObjectCreate
 from utils.assert_helpers import assert_status_code
 
-invalid_payloads = [
-    {},  # completely empty payload
-    {"text": "Missing URL"},  # missing required fields
-    {
-        "text": 123,
-        "url": 456,
-        "tags": "not a list",
-        "info": "not an object"
-    },  # invalid field types
-]
 
-
-@pytest.mark.parametrize("payload", invalid_payloads)
 @allure.title("Test creating object with invalid payload returns 400")
+@pytest.mark.parametrize("payload", invalid_payloads)
 def test_create_object_invalid_payload(token, payload):
     obj = ObjectCreate()
     obj.set_token(token)

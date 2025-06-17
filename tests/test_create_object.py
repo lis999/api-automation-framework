@@ -4,6 +4,7 @@ import pytest
 from data.create_object_data import valid_payloads
 from endpoints.object_create import ObjectCreate
 from utils.assert_helpers import assert_object_matches_payload
+from utils.assert_helpers import assert_status_code
 
 
 @allure.title("Positive test: Create object with valid payloads")
@@ -15,7 +16,7 @@ def test_create_object_success(token, payload):
 
     with allure.step("Send POST request to create object"):
         response = obj_new.create_object(payload)
-        assert response.status_code == 200, f"Expected 200, got {response.status_code}"
+        assert_status_code(response, 200)
 
     with allure.step("Verify response fields match payload"):
         data = response.json()

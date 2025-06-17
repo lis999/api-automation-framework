@@ -55,7 +55,7 @@ def created_object_with_cleanup(token):
     assert response.status_code == 200
     object_id = response.json()["id"]
 
-    yield object_id  # provide the object ID to the test
+    yield object_id, payload  # return ID and payload
 
     # cleanup after test
     obj_delete = ObjectDelete()

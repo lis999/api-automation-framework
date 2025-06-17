@@ -23,16 +23,6 @@ invalid_payloads = [
     {"text": "Info is string", "url": "https://example.com", "tags": ["t"], "info": "notadict"}
 ]
 
-# Invalid payloads for PATCH
-invalid_patch_payloads = [
-    {},  # empty payload
-    {"tags": "notalist"},  # wrong type
-    {"info": "notadict"},
-    {"id": 123456789},  # only ID, no updatable fields
-    {"text": None},  # text can't be None
-    {"url": 123},  # url should be a string
-]
-
 # Invalid payloads for PUT /meme/<id>
 invalid_update_payloads = [
     {},  # empty
@@ -41,3 +31,10 @@ invalid_update_payloads = [
     {"id": 123, "text": "bad", "url": "url", "tags": ["tag"], "info": "notanobject"},  # info not dict
     {"id": 999999, "text": "updated", "url": "https://url", "tags": [], "info": {}}  # unlikely existing ID
 ]
+
+single_valid_payload = {
+    "text": "Temp object",
+    "url": "https://example.com/image.jpg",
+    "tags": ["temp"],
+    "info": {"author": "Test", "type": "image"}
+}

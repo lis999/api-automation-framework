@@ -10,7 +10,7 @@ from utils.assert_helpers import assert_status_code, assert_object_matches_paylo
 @allure.title("Positive test: Update object with valid payload")
 @pytest.mark.smoke
 def test_update_object(token, created_object_with_cleanup):
-    object_id = created_object_with_cleanup
+    object_id, original_payload = created_object_with_cleanup
 
     obj_update = ObjectUpdate()
     obj_update.set_token(token)

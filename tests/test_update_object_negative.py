@@ -11,7 +11,7 @@ from utils.assert_helpers import assert_status_code
     {"info": "not an object"},
 ])
 def test_update_object_bad_request(token, created_object_with_cleanup, payload):
-    object_id = created_object_with_cleanup
+    object_id, original_payload = created_object_with_cleanup
     obj = ObjectUpdate()
     obj.set_token(token)
     response = obj.update_object(object_id, {"id": object_id, **payload})
